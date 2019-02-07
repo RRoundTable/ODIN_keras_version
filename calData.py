@@ -11,10 +11,10 @@ import time
 def testData(net1, criterion, CUDA_DEVICE, testloader10, testloader, nnName, dataName, noiseMagnitude1, temper):
     t0=-time.time()
 
-    if net1=="densenet121":
-        input_shape=testloader10[0][0].shape[1:]
-        input_tensor=layers.Input(shape=input_shape)
-        net1=keras.applications.densenet.DenseNet121(input_tensor=input_tensor)
+    # if net1=="densenet121":
+    #     input_shape=testloader10[0][0].shape[1:]
+    #     input_tensor=layers.Input(shape=input_shape)
+    #     net1=keras.applications.densenet.DenseNet121(input_tensor=input_tensor)
 
     f1 = open("./softmax_scores/confidence_Base_In.txt", 'w')
     f2 = open("./softmax_scores/confidence_Base_Out.txt", 'w')

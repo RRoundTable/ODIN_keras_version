@@ -97,5 +97,75 @@ def data():
         print(data[0])
         print(data[1])
 
+def predict():
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+    net1=keras.models.load_model("densenet121_cifar10.h5")
+    # compile을 한 후 evaluate를 해야한다
+    net1.compile(optimizer=tf.train.AdamOptimizer(0.001),
+                 loss="categorical_crossentropy",
+                 metrics=['accuracy'])
+    y_test=keras.utils.to_categorical(y_test,10)
+
+    input_shape = x_train.shape[1:]
+
+    # loss, metric
+
+    # input_tensor = layers.Input(shape=input_shape,tensor=input_tensor)
+
+    # estimator=keras.estimator.model_to_estimator(net1)
+    #
+    #print(estimator.params)
+
+
+    # predict
+    predict=net1.predict(x_test[:2],batch_size=2)
+    print(predict) # softmax value
+    print(np.array(predict).shape)
+
+    print("predict max", np.array(predict).max(axis=1))
+
+
+
+    model=keras.models.clone_model(net1)
+    # gradient : keras.backend.function에 대해서 더 알아보기
+    gradient=keras.backend.gradients(model.outputs, model.inputs)
+
+    print("-----------------------------------------------------")
+    print(gradient)
+
+    # data=np.expand_dims(x_test[:2],0)
+    # label=np.expand_dims(y_test[:2],0)
+    data, label= x_test[:2], y_test[:2]
+    # gradient=sess.run(gradient, feed_dict={model.inputs :data , model.outputs: label})
+    gradient=keras.backend.function(model.inputs,gradient)
+    gradient=gradient([data])
+    print("gradient shape : ", np.array(gradient).shape)
+    print("gradient shape2 : ",np.squeeze(gradient).shape)
+    print("input shape : ",data.shape)
+    mask=np.isin(gradient,0)
+    #print(np.isin(gradient,0)) # 모두 0 잘못된 gradient
+    print("max gradient : ",np.max(gradient))
+
+    gradient=np.squeeze(gradient)
+
+
+    print("gradient final {}".format(gradient[0].shape))
+    print("gradient final {}".format(gradient[:][:][:][:].shape))
+    print("gradient final _________ {}".format(gradient[0][0:32][0:32][0].shape)) # 32 x 3 ? 차례대로 적용되서
+    # print("gradient final {}".format(gradient[:][:][:][1].shape))
+    # print("gradient final {}".format(gradient[:][:][:][1].shape))
+    gradient[0][:][:][0] = (gradient[0][:][:][0]) / (63.0 / 255.0)
+    gradient[0][:][:][1] = (gradient[0][:][:][1]) / (62.1 / 255.0)
+    gradient[0][:][:][2] = (gradient[0][:][:][2]) / (66.7 / 255.0)
+    print(gradient)
+    tempInput = np.add(data, gradient)
+    print("tempinput {}".format(tempInput.shape))
+    outputs = net1.predict(tempInput)
+
+    nnOutputs = outputs - np.max(outputs)
+    nnOutputs = np.exp(nnOutputs) / np.sum(np.exp(nnOutputs))
+
+    #print(np.isin(gradient,0).astype("int32")) # normalize {0,1}
+
 if __name__=="__main__":
-    test()
+    predict()

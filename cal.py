@@ -53,7 +53,7 @@ def test(nnName, dataName, CUDA_DEVICE, epsilon, temperature):
         (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar100.load_data()
         testloaderOut=(x_test, y_test)
 
-    if nnName == "densenet1000":
+    if nnName == "CIFAR-10":
         (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
         testloaderIn=(x_test, y_test)
 

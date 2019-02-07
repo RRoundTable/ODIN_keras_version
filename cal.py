@@ -7,9 +7,9 @@ from tensorflow.python.keras import layers
 from tensorflow.python import keras
 
 
-from ODIN_keras import calData as c
-from ODIN_keras import calMetric as m
-from ODIN_keras import calData as d
+
+import calMetric as m
+import calData2 as d
 import tensorflow as tf
 
 # CUDA_DEVICE = 0

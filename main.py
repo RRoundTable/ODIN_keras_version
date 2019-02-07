@@ -16,7 +16,7 @@ Created on Sat Sep 19 20:55:56 2015
 from __future__ import print_function
 import argparse
 
-from ODIN_keras import cal as c
+import cal as c
 
 
 parser = argparse.ArgumentParser(description='Pytorch Detecting Out-of-distribution examples in neural networks')

@@ -255,7 +255,7 @@ def detection(name):
         end = 1
     gap = (end - start) / 100000
     # f = open("./{}/{}/T_{}.txt".format(nnName, dataName, T), 'w')
-    Y1 = other[:, 2]
+    Y1 = other[:, x2]
     X1 = cifar[:, 2]
     errorBase = 1.0
     for delta in np.arange(start, end, gap):
@@ -299,6 +299,9 @@ def metric(nn, data):
     if data == "iSUN": dataName = "iSUN"
     if data == "Gaussian": dataName = "Gaussian noise"
     if data == "Uniform": dataName = "Uniform Noise"
+    if data == "CIFAR-100": dataName = "CIFAR-100"
+    # CIFAR-10
+    print(indis)
     fprBase, fprNew = tpr95(indis)
     errorBase, errorNew = detection(indis)
     aurocBase, aurocNew = auroc(indis)

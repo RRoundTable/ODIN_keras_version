@@ -19,11 +19,13 @@ import argparse
 import cal as c
 
 
-parser = argparse.ArgumentParser(description='Pytorch Detecting Out-of-distribution examples in neural networks')
+parser = argparse.ArgumentParser(description='Keras Detecting Out-of-distribution examples in neural networks')
 
-parser.add_argument('--nn', default="densenet10", type=str,
+parser.add_argument('--version', default="test", type=str,
+                    help='train OR test')
+parser.add_argument('--nn', default="CIFAR-10", type=str,
                     help='neural network name and training set')
-parser.add_argument('--out_dataset', default="CIFAR-10", type=str,
+parser.add_argument('--out_dataset', default="CIFAR-100", type=str,
                     help='out-of-distribution dataset')
 parser.add_argument('--magnitude', default=0.0014, type=float,
                     help='perturbation magnitude')
@@ -63,7 +65,10 @@ parser.set_defaults(argument=True)
 def main():
     global args
     args = parser.parse_args()
-    c.test(args.nn, args.out_dataset, args.gpu, args.magnitude, args.temperature)
+    if args.version=="test":
+        c.test(args.nn, args.out_dataset,args.magnitude, args.temperature)
+    else :
+        c.train() # densenet training
 
 if __name__ == '__main__':
     main()

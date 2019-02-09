@@ -6,8 +6,8 @@ from scipy import misc
 from tensorflow.python.keras import layers
 from tensorflow.python import keras
 import tensorflow as tf
-from sklearn.preprocessing import OneHotEncoder
 import numpy as np
+import cv2
 
 def train():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
@@ -22,6 +22,27 @@ def train():
     net1.save('densenet121_cifar10.h5')
 
     return net1
+
+
+
+def model_check():
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+    net1=keras.models.load_model("densenet121_cifar10.h5")
+    # compile을 한 후 evaluate를 해야한다
+    net1.compile(optimizer=tf.train.AdamOptimizer(0.001),
+                 loss="categorical_crossentropy",
+                 metrics=['accuracy'])
+    y_train = keras.utils.to_categorical(y_train, 10)
+    y_test = keras.utils.to_categorical(y_test, 10)
+    # for train data
+    result=net1.evaluate(x_train,y_train, batch_size=100)
+    print("train data :loss {} accuracy {}".format(result[0],result[1]))
+
+    # for test data
+    result = net1.evaluate(x_test, y_test, batch_size=100)
+    print("train data :loss {} accuracy {}".format(result[0], result[1]))
+
+    # 현재 overfiting 상태 : 어떻게 개선할지
 
 
 def test():
@@ -88,14 +109,27 @@ def test():
     #print(np.isin(gradient,0).astype("int32")) # normalize {0,1}
 
 def data():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    testloader=(x_train, y_train)
 
-    for i, data in enumerate(zip(testloader[0],testloader[1])):
-        print(i)
-        print(len(data))
-        print(data[0])
-        print(data[1])
+    # gradient값 표준화 지표
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar100.load_data()
+    testloader=(x_train, y_train)
+    data=np.mean(x_train,axis=0)
+    data = np.mean(data, axis=0)
+    data = np.mean(data, axis=0)
+    print(np.mean(x_train, axis=0).shape) # [125.30691805 122.95039414 113.86538318]
+    print(data)
+
+    for img, label in zip(x_train, y_train):
+        if np.squeeze(label)==1:
+            print(label)
+            cv2.resize(img, (300,300))
+            cv2.imshow(str(label),img)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+
 
 def predict():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
@@ -108,7 +142,7 @@ def predict():
 
     input_shape = x_train.shape[1:]
 
-    # loss, metric
+    # loss, metr"ic
 
     # input_tensor = layers.Input(shape=input_shape,tensor=input_tensor)
 
@@ -154,7 +188,7 @@ def predict():
     print("gradient final _________ {}".format(gradient[0][0:32][0:32][0].shape)) # 32 x 3 ? 차례대로 적용되서
     # print("gradient final {}".format(gradient[:][:][:][1].shape))
     # print("gradient final {}".format(gradient[:][:][:][1].shape))
-    gradient[0][:][:][0] = (gradient[0][:][:][0]) / (63.0 / 255.0)
+    gradient[:,:,:0]= ( gradient[:,:,:0]) / (63.0 / 255.0)
     gradient[0][:][:][1] = (gradient[0][:][:][1]) / (62.1 / 255.0)
     gradient[0][:][:][2] = (gradient[0][:][:][2]) / (66.7 / 255.0)
     print(gradient)
@@ -168,4 +202,4 @@ def predict():
     #print(np.isin(gradient,0).astype("int32")) # normalize {0,1}
 
 if __name__=="__main__":
-    predict()
+    data()

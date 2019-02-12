@@ -8,7 +8,9 @@ from tensorflow.python import keras
 import tensorflow as tf
 import numpy as np
 import cv2
-
+from matplotlib.image import imread
+import os
+from PIL import Image
 def train():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
     input_shape = x_train.shape[1:]
@@ -27,7 +29,7 @@ def train():
 
 def model_check():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    net1=keras.models.load_model("densenet121_cifar10.h5")
+    net1=keras.models.load_model("densenet169_cifar10.h5")
     # compile을 한 후 evaluate를 해야한다
     net1.compile(optimizer=tf.train.AdamOptimizer(0.001),
                  loss="categorical_crossentropy",
@@ -40,7 +42,7 @@ def model_check():
 
     # for test data
     result = net1.evaluate(x_test, y_test, batch_size=100)
-    print("train data :loss {} accuracy {}".format(result[0], result[1]))
+    print("test data :loss {} accuracy {}".format(result[0], result[1]))
 
     # 현재 overfiting 상태 : 어떻게 개선할지
 
@@ -66,49 +68,37 @@ def test():
     #print(estimator.params)
 
     print(result) # loss , metric
-    # predict
-    predict=net1.predict(x_test[:2],batch_size=2)
-    print(predict) # softmax value
-
-    loss= result[0]
-    print("loss {}".format(loss)) # loss 확인
-    print(keras.models.clone_model(net1))
-    model=keras.models.clone_model(net1)
 
 
-
-
+    model=net1
     # gradient : keras.backend.function에 대해서 더 알아보기
     gradient=keras.backend.gradients(model.outputs, model.inputs)
-
-    print("-----------------------------------------------------")
-    print(gradient)
-
-    print(model.inputs)
-
-    print(model.outputs)
-    sess=tf.Session()
-    data=np.expand_dims(x_test[0],0)
-    label=np.expand_dims(y_test[0],0)
+    data=np.expand_dims(x_test[1],0)
+    label=np.expand_dims(y_test[1],0)
     # gradient=sess.run(gradient, feed_dict={model.inputs :data , model.outputs: label})
     gradient=keras.backend.function(model.inputs,gradient)
     gradient=gradient([data])
+    print("gradient" ,np.array(gradient)[0,0,:,:])
 
-    print(len(gradient)) # 1
-    print(len(gradient[0])) # 1
-    print(len(gradient[0][0])) # 32
-    print(len(gradient[0][0][0])) # 32
-    print(len(gradient[0][0][0][0])) # 3
-    print("gradient shape : ", np.array(gradient).shape)
-    print("gradient shape2 : ",np.squeeze(gradient).shape)
-    print("input shape : ",data.shape)
-    mask=np.isin(gradient,0)
+    gradient = np.where(np.array(gradient) > 0, np.array(gradient), -1)
+    print("gradient2", np.array(gradient)[0, 0, :, :])
+    gradient = np.where(np.array(gradient) < 0.0, np.array(gradient), 1)
+
+    print("gradient3", np.array(gradient)[0, 0, :, :])
+    print("mask {}".format(gradient[0,0,:,:]))
     #print(np.isin(gradient,0)) # 모두 0 잘못된 gradient
     print("max gradient : ",np.max(gradient))
+    print(np.array(gradient).astype("float32")-.5)
+    print((np.array(gradient).astype("float32")-.5)*2)
 
     #print(np.isin(gradient,0).astype("int32")) # normalize {0,1}
 
 def data():
+
+    x_test=load_images_from_folder("./Imagenet/test")
+    print("x_test shape :",np.asarray(x_test).shape)
+
+
 
     # gradient값 표준화 지표
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar100.load_data()
@@ -128,8 +118,15 @@ def data():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-
-
+def load_images_from_folder(folder):
+    images=[]
+    for filename in os.listdir(folder):
+        img=Image.open(os.path.join(folder,filename))
+        img=img.resize((32,32))
+        img=img.copy()
+        img=np.asarray(img)
+        images.append(img)
+    return images
 
 def predict():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
@@ -202,4 +199,4 @@ def predict():
     #print(np.isin(gradient,0).astype("int32")) # normalize {0,1}
 
 if __name__=="__main__":
-    data()
+    test()

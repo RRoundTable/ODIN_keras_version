@@ -15,7 +15,7 @@ Created on Sat Sep 19 20:55:56 2015
 from __future__ import print_function
 
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 import time
 from scipy import misc
@@ -74,7 +74,7 @@ def tpr95(name):
     return fprBase, fprNew
 
 
-def auroc(name):
+def auroc(name,temperature, noise):
     # calculate the AUROC
     # calculate baseline
     T = 1
@@ -92,9 +92,13 @@ def auroc(name):
     X1 = cifar[:, 2]
     aurocBase = 0.0
     fprTemp = 1.0
+    x_plot_base=[] # fpr
+    y_plot_base=[] # tpr
     for delta in np.arange(start, end, gap):
         tpr = np.sum(np.sum(X1 >= delta)) / np.float(len(X1))
-        fpr = np.sum(np.sum(Y1 > delta)) / np.float(len(Y1))
+        fpr = np.sum(np.sum(Y1 >= delta)) / np.float(len(Y1))
+        x_plot_base.append(tpr)
+        y_plot_base.append(fpr)
         aurocBase += (-fpr + fprTemp) * tpr
         fprTemp = fpr
     aurocBase += fpr * tpr
@@ -114,16 +118,35 @@ def auroc(name):
     X1 = cifar[:, 2]
     aurocNew = 0.0
     fprTemp = 1.0
+    x_plot_our = []  # fpr
+    y_plot_our = []  # tpr
     for delta in np.arange(start, end, gap):
         tpr = np.sum(np.sum(X1 >= delta)) / np.float(len(X1))
         fpr = np.sum(np.sum(Y1 >= delta)) / np.float(len(Y1))
+        x_plot_our.append(tpr)
+        y_plot_our.append(fpr)
         aurocNew += (-fpr + fprTemp) * tpr
         fprTemp = fpr
     aurocNew += fpr * tpr
+
+    # save graph
+    plt.figure()
+    plt.plot(y_plot_base,x_plot_base, color="red", label="ROC Curve baseline", lw=2)
+    plt.plot(y_plot_our,x_plot_our, color="blue", label="roc Curve Our", lw=2)
+    plt.plot([0,1],[0,1], color='navy', linestyle='--')
+    plt.xlabel("False Positive rate")
+    plt.ylabel("True Positive rate")
+    plt.xlim([0.0,1.0])
+    plt.ylim([0.0, 1.0])
+    plt.legend()
+    plt.savefig("./graph/ROC_T_{}_M_{}.png".format(temperature,noise))
+
+
+
     return aurocBase, aurocNew
 
 
-def auprIn(name):
+def auprIn(name,temperature, noise):
     # calculate the AUPR
     # calculate baseline
     T = 1
@@ -136,25 +159,27 @@ def auprIn(name):
         start = 0.01
         end = 1
     gap = (end - start) / 100000
-    precisionVec = []
-    recallVec = []
+    precisionVec_base = []
+    recallVec_base = []
     # f = open("./{}/{}/T_{}.txt".format(nnName, dataName, T), 'w')
     Y1 = other[:, 2]
     X1 = cifar[:, 2]
     auprBase = 0.0
     recallTemp = 1.0
+
     for delta in np.arange(start, end, gap):
         tp = np.sum(np.sum(X1 >= delta)) / np.float(len(X1))
         fp = np.sum(np.sum(Y1 >= delta)) / np.float(len(Y1))
         if tp + fp == 0: continue
         precision = tp / (tp + fp)
         recall = tp
-        precisionVec.append(precision)
-        recallVec.append(recall)
+        precisionVec_base.append(precision)
+        recallVec_base.append(recall)
         auprBase += (recallTemp - recall) * precision
         recallTemp = recall
     auprBase += recall * precision
-    # print(recall, precision)
+
+
 
     # calculate our algorithm
     T = 1000
@@ -172,17 +197,31 @@ def auprIn(name):
     X1 = cifar[:, 2]
     auprNew = 0.0
     recallTemp = 1.0
+    precisionVec_our=[]
+    recallVec_our=[]
     for delta in np.arange(start, end, gap):
         tp = np.sum(np.sum(X1 >= delta)) / np.float(len(X1))
         fp = np.sum(np.sum(Y1 >= delta)) / np.float(len(Y1))
         if tp + fp == 0: continue
         precision = tp / (tp + fp)
         recall = tp
-        # precisionVec.append(precision)
-        # recallVec.append(recall)
+        precisionVec_our.append(precision)
+        recallVec_our.append(recall)
         auprNew += (recallTemp - recall) * precision
         recallTemp = recall
     auprNew += recall * precision
+
+    # save graph
+    plt.figure()
+    plt.plot(recallVec_base,precisionVec_base, color="red", label="PR Curve baseline", lw=2)
+    plt.plot(recallVec_our, precisionVec_our, color="blue", label="PR Curve Our", lw=2)
+    #plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.0])
+    plt.legend()
+    plt.savefig("./graph/PR_T_{}_M_{}.png".format(temperature, noise))
     return auprBase, auprNew
 
 
@@ -255,7 +294,7 @@ def detection(name):
         end = 1
     gap = (end - start) / 100000
     # f = open("./{}/{}/T_{}.txt".format(nnName, dataName, T), 'w')
-    Y1 = other[:, x2]
+    Y1 = other[:, 2]
     X1 = cifar[:, 2]
     errorBase = 1.0
     for delta in np.arange(start, end, gap):
@@ -286,13 +325,13 @@ def detection(name):
     return errorBase, errorNew
 
 
-def metric(nn, data):
+def metric(nn, data,temperture, noise):
     if nn == "densenet10" or nn == "wideresnet10": indis = "CIFAR-10"
     if nn == "densenet100" or nn == "wideresnet100": indis = "CIFAR-100"
     if nn == "densenet10" or nn == "densenet100": nnStructure = "DenseNet-BC-100"
     if nn == "wideresnet10" or nn == "wideresnet100": nnStructure = "Wide-ResNet-28-10"
 
-    if data == "Imagenet": dataName = "Tiny-ImageNet (crop)"
+    if data == "Imagenet_crop": dataName = "Tiny-ImageNet (crop)"
     if data == "Imagenet_resize": dataName = "Tiny-ImageNet (resize)"
     if data == "LSUN": dataName = "LSUN (crop)"
     if data == "LSUN_resize": dataName = "LSUN (resize)"
@@ -301,11 +340,10 @@ def metric(nn, data):
     if data == "Uniform": dataName = "Uniform Noise"
     if data == "CIFAR-100": dataName = "CIFAR-100"
     # CIFAR-10
-    print(indis)
     fprBase, fprNew = tpr95(indis)
     errorBase, errorNew = detection(indis)
-    aurocBase, aurocNew = auroc(indis)
-    auprinBase, auprinNew = auprIn(indis)
+    aurocBase, aurocNew = auroc(indis, temperture, noise)
+    auprinBase, auprinNew = auprIn(indis, temperture, noise)
     auproutBase, auproutNew = auprOut(indis)
     print("{:31}{:>22}".format("Neural network architecture:", nnStructure))
     print("{:31}{:>22}".format("In-distribution dataset:", indis))
@@ -317,6 +355,17 @@ def metric(nn, data):
     print("{:20}{:13.1f}%{:>18.1f}%".format("AUROC:", aurocBase * 100, aurocNew * 100))
     print("{:20}{:13.1f}%{:>18.1f}%".format("AUPR In:", auprinBase * 100, auprinNew * 100))
     print("{:20}{:13.1f}%{:>18.1f}%".format("AUPR Out:", auproutBase * 100, auproutNew * 100))
+
+    result=open("./softmax_scores/T_{}_noise_{}_d_{}.txt".format(temperture,noise,dataName), 'w')
+    result.write("{:31}{:>22}\n".format("Neural network architecture:", nnStructure))
+    result.write("{:31}{:>22}\n".format("In-distribution dataset:", indis))
+    result.write("{:31}{:>22}\n".format("Out-of-distribution dataset:", dataName))
+    result.write("{:>34}{:>19}\n".format("Baseline", "Our Method"))
+    result.write("{:20}{:13.1f}%{:>18.1f}% \n".format("FPR at TPR 95%:", fprBase * 100, fprNew * 100))
+    result.write("{:20}{:13.1f}%{:>18.1f}%\n".format("Detection error:", errorBase * 100, errorNew * 100))
+    result.write("{:20}{:13.1f}%{:>18.1f}%\n".format("AUROC:", aurocBase * 100, aurocNew * 100))
+    result.write("{:20}{:13.1f}%{:>18.1f}%\n".format("AUPR In:", auprinBase * 100, auprinNew * 100))
+    result.write("{:20}{:13.1f}%{:>18.1f}%\n".format("AUPR Out:", auproutBase * 100, auproutNew * 100))
 
 
 

@@ -23,9 +23,9 @@ parser = argparse.ArgumentParser(description='Keras Detecting Out-of-distributio
 
 parser.add_argument('--version', default="test", type=str,
                     help='train OR test')
-parser.add_argument('--nn', default="CIFAR-10", type=str,
+parser.add_argument('--nn', default="densenet10", type=str,
                     help='neural network name and training set')
-parser.add_argument('--out_dataset', default="CIFAR-100", type=str,
+parser.add_argument('--out_dataset', default="Imagenet_crop", type=str,
                     help='out-of-distribution dataset')
 parser.add_argument('--magnitude', default=0.0014, type=float,
                     help='perturbation magnitude')

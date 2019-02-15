@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 from matplotlib.image import imread
 import os
+from cifar10vgg import cifar10vgg
 from PIL import Image
 def train():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
@@ -29,13 +30,16 @@ def train():
 
 def model_check():
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    net1=keras.models.load_model("densenet169_cifar10.h5")
+    net1 = cifar10vgg(train=False)
+    net1=net1.model
+    #net1=keras.models.load_model("densenet169_cifar10.h5")
     # compile을 한 후 evaluate를 해야한다
     net1.compile(optimizer=tf.train.AdamOptimizer(0.001),
                  loss="categorical_crossentropy",
                  metrics=['accuracy'])
     y_train = keras.utils.to_categorical(y_train, 10)
     y_test = keras.utils.to_categorical(y_test, 10)
+    x_train, x_test=normalize(x_train,x_test)
     # for train data
     result=net1.evaluate(x_train,y_train, batch_size=100)
     print("train data :loss {} accuracy {}".format(result[0],result[1]))
@@ -198,5 +202,17 @@ def predict():
 
     #print(np.isin(gradient,0).astype("int32")) # normalize {0,1}
 
+
+def normalize(X_train,X_test):
+    #this function normalize inputs for zero mean and unit variance
+    # it is used when training a model.
+    # Input: training set and test set
+    # Output: normalized training set and test set according to the trianing set statistics.
+    mean = np.mean(X_train,axis=(0,1,2,3))
+    std = np.std(X_train, axis=(0, 1, 2, 3))
+    X_train = (X_train-mean)/(std+1e-7)
+    X_test = (X_test-mean)/(std+1e-7)
+    return X_train, X_test
+
 if __name__=="__main__":
-    test()
+    model_check()

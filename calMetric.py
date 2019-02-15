@@ -40,11 +40,13 @@ def tpr95(name):
     total = 0.0
     fpr = 0.0
     for delta in np.arange(start, end, gap):
+
         tpr = np.sum(np.sum(X1 >= delta)) / np.float(len(X1))
         error2 = np.sum(np.sum(Y1 > delta)) / np.float(len(Y1))
         if tpr <= 0.9505 and tpr >= 0.9495:
             fpr += error2
             total += 1
+        if tpr<0.93: break
     fprBase = fpr / total
 
     # calculate our algorithm
@@ -57,18 +59,27 @@ def tpr95(name):
     if name == "CIFAR-100":
         start = 0.01
         end = 0.0104
-    gap = (end - start) / 100000
+    gap = (end - start) / 10000000
     # f = open("./{}/{}/T_{}.txt".format(nnName, dataName, T), 'w')
     Y1 = other[:, 2]
     X1 = cifar[:, 2]
     total = 0.0
     fpr = 0.0
+    print("x1 : {}".format(X1))
+    print(end)
     for delta in np.arange(start, end, gap):
+
         tpr = np.sum(np.sum(X1 >= delta)) / np.float(len(X1))
+
         error2 = np.sum(np.sum(Y1 > delta)) / np.float(len(Y1))
+
         if tpr <= 0.9505 and tpr >= 0.9495:
+            print(tpr)
             fpr += error2
             total += 1
+        if tpr < 0.93:
+            print("tpr95 끝")
+            break
     fprNew = fpr / total
 
     return fprBase, fprNew

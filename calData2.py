@@ -36,11 +36,8 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
     batch_size=int(N/10)
     for i in range(10):
         outputs=net1.predict(images[batch_size*i:(i+1)*batch_size],verbose=1 ,batch_size=batch_size)
-        print("max value : ",np.expand_dims(np.max(outputs, axis=1), 1))  # max value
         nnOutputs=outputs-np.expand_dims(np.max(outputs, axis=1),1) # (50,10) (50,1)
 
-        print("outputs",outputs) # 극단적으로 치우침
-        print("sum : ",np.expand_dims(np.sum(np.exp(nnOutputs),axis=1),1))
 
         nnOutputs=np.exp(nnOutputs)/np.expand_dims(np.sum(np.exp(nnOutputs),axis=1),1)
         print(nnOutputs.shape)
@@ -56,20 +53,18 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
         gradient=keras.backend.function(net1.inputs, gradient)
         gradient=gradient([images[batch_size*i:(i+1)*batch_size]])
 
-        # Normalizing the gradient to binary in {0, 1}
+        # # Normalizing the gradient to binary in {0, 1}
         gradient = np.where(np.array(gradient) > 0, np.array(gradient), -1)
         gradient = np.where(np.array(gradient) < 0, np.array(gradient), 1)
-        #gradient=(gradient.astype("float32")-.5)*2
-
-        # Normalizing the gradient to the same space of image
+        # #gradient=(gradient.astype("float32")-.5)*2
+        #
+        # # Normalizing the gradient to the same space of image
         gradient=np.squeeze(gradient)
-        gradient[:,:,:,0] = (gradient[:,:,:,0]) / (63.0 / 255.0)
-        gradient[:, :, :, 1] = (gradient[:,:,:,1]) / (62.1 / 255.0)
-        gradient[:, :, :, 2] = (gradient[:,:,:,2]) / (66.7 / 255.0)
+        # gradient[:,:,:,0] = (gradient[:,:,:,0]) /(63.0 / 255.0)
+        # gradient[:, :, :, 1] = (gradient[:,:,:,1]) /(62.1 / 255.0)
+        # gradient[:, :, :, 2] = (gradient[:,:,:,2]) /(66.7 / 255.0)
 
         tempInput=np.add(images[batch_size*i:(i+1)*batch_size],gradient*noiseMagnitude1*-1)
-
-
         outputs=net1.predict(tempInput,batch_size=batch_size)
         outputs = outputs / temper
 
@@ -92,6 +87,7 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
     images=testloaderOut # out of distribution
     for i in range(10):
         outputs = net1.predict(images[batch_size * i:(i + 1) * batch_size], batch_size=batch_size)
+        print("max value : ", np.expand_dims(np.max(outputs, axis=1), 1))  # max value
         nnOutputs = outputs - np.expand_dims(np.max(outputs, axis=1), 1)  # (50,10) (50,)
         nnOutputs = np.exp(nnOutputs) / np.expand_dims(np.sum(np.exp(nnOutputs), axis=1), 1)
         print(nnOutputs.shape)
@@ -105,18 +101,17 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
         gradient = keras.backend.function(net1.inputs, gradient)
         gradient = gradient([images[batch_size * i:(i + 1) * batch_size]])
 
-        # Normalizing the gradient to binary in {0, 1}
+        # # Normalizing the gradient to binary in {0, 1}
         #gradient = np.isin(gradient, 0).astype("int32")
         gradient = np.where(np.array(gradient) > 0, np.array(gradient), -1)
         gradient = np.where(np.array(gradient) < 0, np.array(gradient), 1)
         # gradient = (gradient.astype("float32") - .5) * 2
-
-        # Normalizing the gradient to the same space of image : error
+        #
+        # # Normalizing the gradient to the same space of image : error
         gradient = np.squeeze(gradient)
-        gradient[:, :, :, 0] = (gradient[:, :, :, 0]) / (63.0 / 255.0)
-        gradient[:, :, :, 1] = (gradient[:, :, :, 1]) / (62.1 / 255.0)
-        gradient[:, :, :, 2] = (gradient[:, :, :, 2]) / (66.7 / 255.0)
-
+        # gradient[:, :, :, 0] = (gradient[:, :, :, 0]) /(63.0 / 255.0)
+        # gradient[:, :, :, 1] = (gradient[:, :, :, 1]) / (62.1 / 255.0)
+        # gradient[:, :, :, 2] = (gradient[:, :, :, 2]) / (66.7 / 255.0)
         tempInput = np.add(images[batch_size * i:(i + 1) * batch_size], gradient*noiseMagnitude1*-1)
 
         outputs = net1.predict(tempInput, batch_size=batch_size)

@@ -18,24 +18,26 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
     :param noiseMagnitude1: noise
     :param temper: scaling
     """
-    print("No gradient")
     t0=-time.time()
     f1 = open("./softmax_scores/confidence_Base_In.txt", 'w')
     f2 = open("./softmax_scores/confidence_Base_Out.txt", 'w')
     g1 = open("./softmax_scores/confidence_Our_In.txt", 'w')
     g2 = open("./softmax_scores/confidence_Our_Out.txt", 'w')
-    N = len(testloaderIn)
+    N = len(testloaderIn[0])
     print(N)
     if dataName == "iSUN": N = 8925
     print("Processing in-distribution images")
     print("in-distribution : {}".format(nnName))
     ########################################################################################################
     # in-distribution
-    images= testloaderIn # in distribution
-    #labels=keras.utils.to_categorical(labels,10)
+    images= testloaderIn[0] # in distribution
+    labels=testloaderIn[1]
+    labels=keras.utils.to_categorical(labels,10)
     batch_size=int(N/10)
+    print("images : ",images.shape)
     for i in range(10):
         outputs=net1.predict(images[batch_size*i:(i+1)*batch_size],verbose=1 ,batch_size=batch_size)
+        y_labels=labels[batch_size*i:(i+1)*batch_size]
         nnOutputs=outputs-np.expand_dims(np.max(outputs, axis=1),1) # (50,10) (50,1)
 
 
@@ -49,9 +51,11 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
             f1.write("{}, {}, {}\n".format(temper, noiseMagnitude1, np.max(nnOutputs[j])))
 
         # # Normalizing the gradient to binary in {0, 1}
-        gradient=keras.backend.gradients(net1.outputs, net1.inputs) # loss, variable
-        gradient=keras.backend.function(net1.inputs, gradient)
-        gradient=gradient([images[batch_size*i:(i+1)*batch_size]])
+        y_true = keras.layers.Input(shape=[None,10])
+        loss=keras.backend.mean(keras.backend.categorical_crossentropy(y_true,net1.output))#
+        gradient=keras.backend.gradients(loss, net1.inputs) # loss, variable
+        gradient=keras.backend.function(net1.inputs+[y_true], gradient) # input / output
+        gradient=gradient([images[batch_size*i:(i+1)*batch_size],[y_labels]])
 
         # # Normalizing the gradient to binary in {0, 1}
         gradient = np.where(np.array(gradient) > 0, np.array(gradient), -1)
@@ -60,9 +64,9 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
         #
         # # Normalizing the gradient to the same space of image
         gradient=np.squeeze(gradient)
-        # gradient[:,:,:,0] = (gradient[:,:,:,0]) /(63.0 / 255.0)
-        # gradient[:, :, :, 1] = (gradient[:,:,:,1]) /(62.1 / 255.0)
-        # gradient[:, :, :, 2] = (gradient[:,:,:,2]) /(66.7 / 255.0)
+        gradient[:,:,:,0] = (gradient[:,:,:,0]) /(63.0 / 255.0)
+        gradient[:, :, :, 1] = (gradient[:,:,:,1]) /(62.1 / 255.0)
+        gradient[:, :, :, 2] = (gradient[:,:,:,2]) /(66.7 / 255.0)
 
         tempInput=np.add(images[batch_size*i:(i+1)*batch_size],gradient*noiseMagnitude1*-1)
         outputs=net1.predict(tempInput,batch_size=batch_size)
@@ -85,6 +89,8 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
     print("Processing out of distribution")
     print("out-of-distribution : {}".format(dataName))
     images=testloaderOut # out of distribution
+    labels=np.random.randint(0,9,N)
+    labels=keras.utils.to_categorical(labels,10)
     for i in range(10):
         outputs = net1.predict(images[batch_size * i:(i + 1) * batch_size], batch_size=batch_size)
         print("max value : ", np.expand_dims(np.max(outputs, axis=1), 1))  # max value
@@ -92,26 +98,29 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
         nnOutputs = np.exp(nnOutputs) / np.expand_dims(np.sum(np.exp(nnOutputs), axis=1), 1)
         print(nnOutputs.shape)
 
+
         for j in range(batch_size):
             if j == batch_size - 1:print("--{} batch baseline out-of- distribution--".format(i))
             f2.write("{}, {}, {}\n".format(temper, noiseMagnitude1, np.max(nnOutputs[j])))
 
-        # # Normalizing the gradient to binary in {0, 1}
-        gradient = keras.backend.gradients(net1.outputs, net1.inputs)  # loss, variable
-        gradient = keras.backend.function(net1.inputs, gradient)
-        gradient = gradient([images[batch_size * i:(i + 1) * batch_size]])
+        # Get gradient w.r.t input
+        y_true = keras.layers.Input(shape=[None, 10])
+        loss = keras.backend.mean(keras.backend.categorical_crossentropy(y_true, net1.output))  #
+        gradient = keras.backend.gradients(loss, net1.inputs)  # loss, variable
+        gradient = keras.backend.function(net1.inputs + [y_true], gradient)  # input / output
 
-        # # Normalizing the gradient to binary in {0, 1}
-        #gradient = np.isin(gradient, 0).astype("int32")
+        gradient = gradient([images[batch_size * i:(i + 1) * batch_size], [labels[batch_size * i:(i + 1) * batch_size]]])
+
+        # Normalizing the gradient to binary in {0, 1}
         gradient = np.where(np.array(gradient) > 0, np.array(gradient), -1)
         gradient = np.where(np.array(gradient) < 0, np.array(gradient), 1)
         # gradient = (gradient.astype("float32") - .5) * 2
         #
         # # Normalizing the gradient to the same space of image : error
         gradient = np.squeeze(gradient)
-        # gradient[:, :, :, 0] = (gradient[:, :, :, 0]) /(63.0 / 255.0)
-        # gradient[:, :, :, 1] = (gradient[:, :, :, 1]) / (62.1 / 255.0)
-        # gradient[:, :, :, 2] = (gradient[:, :, :, 2]) / (66.7 / 255.0)
+        gradient[:, :, :, 0] = (gradient[:, :, :, 0]) /(63.0 / 255.0)
+        gradient[:, :, :, 1] = (gradient[:, :, :, 1]) / (62.1 / 255.0)
+        gradient[:, :, :, 2] = (gradient[:, :, :, 2]) / (66.7 / 255.0)
         tempInput = np.add(images[batch_size * i:(i + 1) * batch_size], gradient*noiseMagnitude1*-1)
 
         outputs = net1.predict(tempInput, batch_size=batch_size)

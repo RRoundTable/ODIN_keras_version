@@ -1,0 +1,9 @@
+Neural network architecture:          DenseNet-BC-100
+In-distribution dataset:                     CIFAR-10
+Out-of-distribution dataset:     Tiny-ImageNet (crop)
+                          Baseline         Our Method
+FPR at TPR 95%:              14.9%               2.1% 
+Detection error:              8.3%               3.8%
+AUROC:                       97.4%              98.6%
+AUPR In:                     97.8%              99.0%
+AUPR Out:                    97.1%              99.7%

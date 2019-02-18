@@ -70,6 +70,10 @@ def test(nnName, dataName,epsilon, temperature):
     print("--start testing!--")
     net1=cifar10vgg(train=False).model
 
+    net1.compile(optimizer=tf.train.AdamOptimizer(0.0001),
+                 loss=tf.losses.softmax_cross_entropy,
+                 metrics=['accuracy'])
+
 
     if dataName =="Imagenet_crop":
         # (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar100.load_data()
@@ -82,7 +86,7 @@ def test(nnName, dataName,epsilon, temperature):
         testloaderIn=x_train[:10000]
 
     testloaderIn, testloaderOut= normalize(testloaderIn,testloaderOut)
-
+    testloaderIn=(testloaderIn, y_train[:10000])
     d.testData(net1,testloaderIn, testloaderOut, nnName, dataName, epsilon, temperature)
     m.metric(nnName, dataName,temperature,epsilon)
 

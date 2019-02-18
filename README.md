@@ -26,20 +26,11 @@ reference : https://github.com/facebookresearch/odin
   
   Out-of-distribution dataset:     Tiny-ImageNet (crop)
   
-                            Baseline         Our Method
-                            
-  FPR at TPR 95%:              14.9%               2.1% 
   
-  Detection error:              8.3%               3.8%
-  
-  AUROC:                       97.4%              98.6%
-  
-  AUPR In:                     97.8%              99.0%
-  
-  AUPR Out:                    97.1%              99.7%
-  
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
+| Tables   	|      Baseline      	|  ODIN 	|
+|----------	|:-------------:	|------:	|
+| FPR at TPR 95%:  	| 14.9% 	| 2.1%  	|
+| Detection error: 	|    8.3%   	|  3.8% 	|
+| AUROC: 	| 97.4% 	|    98.6%	|
+| AUPR In:|         97.8%       	|   99.0%    	|
+| AUPR Out:|        97.1%        	|    99.7%   	|

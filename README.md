@@ -22,15 +22,15 @@ reference : https://github.com/facebookresearch/odin
 
 - 실험 상세 내용
 
-  In-distribution dataset:                     CIFAR-10
+  In-distribution dataset: CIFAR-10
   
-  Out-of-distribution dataset:     Tiny-ImageNet (crop)
+  Out-of-distribution dataset: Tiny-ImageNet (crop)
   
-  
-| Tables   	|      Baseline      	|  ODIN 	|
-|----------	|:-------------:	|------:	|
-| FPR at TPR 95%:  	| 14.9% 	| 2.1%  	|
-| Detection error: 	|    8.3%   	|  3.8% 	|
-| AUROC: 	| 97.4% 	|    98.6%	|
-| AUPR In:|         97.8%       	|   99.0%    	|
-| AUPR Out:|        97.1%        	|    99.7%   	|
+
+  | Tables   	|      Baseline      	|  ODIN 	|
+  |----------	|:-------------:	|------:	|
+  | FPR at TPR 95%:  	| 14.9% 	| 2.1%  	|
+  | Detection error: 	|    8.3%   	|  3.8% 	|
+  | AUROC: 	| 97.4% 	|    98.6%	|
+  | AUPR In:|         97.8%       	|   99.0%    	|
+  | AUPR Out:|        97.1%        	|    99.7%   	|

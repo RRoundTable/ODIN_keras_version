@@ -19,7 +19,7 @@ reference : https://github.com/facebookresearch/odin
 
 - ![graph](./result/ROC_T_1000_M_0.0014.png)
 
-- 다른 
+- 실험 상세 내용
 
   In-distribution dataset:                     CIFAR-10
   Out-of-distribution dataset:     Tiny-ImageNet (crop)

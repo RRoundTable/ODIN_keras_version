@@ -16,16 +16,25 @@ reference : https://github.com/facebookresearch/odin
 # result
 
 - 아래 그래프를 보면, ROC커브가 개선되었음을 알 수 있다.
-
+  (Temperature=1000, Magnitude=0.0014)
+  
 - ![graph](./result/ROC_T_1000_M_0.0014.png)
 
 - 실험 상세 내용
 
   In-distribution dataset:                     CIFAR-10
+  
   Out-of-distribution dataset:     Tiny-ImageNet (crop)
+  
                             Baseline         Our Method
+                            
   FPR at TPR 95%:              14.9%               2.1% 
+  
   Detection error:              8.3%               3.8%
+  
   AUROC:                       97.4%              98.6%
+  
   AUPR In:                     97.8%              99.0%
+  
   AUPR Out:                    97.1%              99.7%
+  

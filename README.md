@@ -20,11 +20,11 @@ reference : https://github.com/facebookresearch/odin
   
 ![graph](./result/ROC_T_1000_M_0.0014.png)
 
-### 실험 상세 내용
+### 실험 상세 내용-1
 
-  In-distribution dataset: CIFAR-10
+- In-distribution dataset: CIFAR-10
   
-  Out-of-distribution dataset: Tiny-ImageNet (crop)
+- Out-of-distribution dataset: Tiny-ImageNet (crop)
  
   | Tables   	|      Baseline      	|  ODIN 	|
   |----------	|:-------------:	|------:	|
@@ -33,3 +33,39 @@ reference : https://github.com/facebookresearch/odin
   | AUROC: 	| 97.4% 	|    98.6%	|
   | AUPR In:|         97.8%       	|   99.0%    	|
   | AUPR Out:|        97.1%        	|    99.7%   	|
+  
+  
+### 실험 상세 내용-2
+
+- In-distribution dataset: CIFAR-10  
+
+- Out-of-distribution dataset: Tiny-ImageNet (crop)
+ 
+  | Tables   	|      Baseline      	|  ODIN 	|
+  |----------	|:-------------:	|------:	|
+  | FPR at TPR 95%:  	| 24.3% % 	|  6.7%	|
+  | Detection error: 	|   12.0%   	|  6.9% 	|
+  | AUROC: 	| 94.6% 	|    94.8%	|
+  | AUPR In:|        95.0%        	|    95.3%    	|
+  | AUPR Out:|        94.9%        	|    99.3%   	|
+  
+  
+  # Activation Map
+  
+  ### in-distribution
+  
+  ![image](./activation_map/activation_map_70_in.png)
+  
+  ### out-of-distribution
+  
+  ![image](./activation_map/activation_map_3_out.png)
+  
+ 
+  out-of-distribution의 activation map은 in-distribution과 큰 차이를 보이고 있다.
+  
+  상대적으로 분산된 activation map을 가지는데 이는 classification을 할 때, 중요하게 생각하는 포인트를 못 잡아내는 것으로 해석할 수 있다.
+  
+ 
+  ### reference : http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf
+  
+  

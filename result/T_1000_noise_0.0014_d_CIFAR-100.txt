@@ -1,0 +1,9 @@
+Neural network architecture:          DenseNet-BC-100
+In-distribution dataset:                     CIFAR-10
+Out-of-distribution dataset:                CIFAR-100
+                          Baseline         Our Method
+FPR at TPR 95%:              24.3%               6.7% 
+Detection error:             12.0%               6.9%
+AUROC:                       94.6%              94.8%
+AUPR In:                     95.0%              95.3%
+AUPR Out:                    94.9%              99.3%

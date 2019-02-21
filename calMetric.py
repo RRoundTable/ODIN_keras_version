@@ -339,7 +339,7 @@ def detection(name):
 def metric(nn, data,temperture, noise):
     if nn == "densenet10" or nn == "wideresnet10": indis = "CIFAR-10"
     if nn == "densenet100" or nn == "wideresnet100": indis = "CIFAR-100"
-    if nn == "densenet10" or nn == "densenet100": nnStructure = "DenseNet-BC-100"
+    if nn == "densenet10" or nn == "densenet100": nnStructure = "VGG-BC-100"
     if nn == "wideresnet10" or nn == "wideresnet100": nnStructure = "Wide-ResNet-28-10"
 
     if data == "Imagenet_crop": dataName = "Tiny-ImageNet (crop)"

@@ -39,7 +39,7 @@ reference : https://github.com/facebookresearch/odin
 
 - In-distribution dataset: CIFAR-10  
 
-- Out-of-distribution dataset: Tiny-ImageNet (crop)
+- Out-of-distribution dataset: CIFAR-100 
  
   | Tables   	|      Baseline      	|  ODIN 	|
   |----------	|:-------------:	|------:	|

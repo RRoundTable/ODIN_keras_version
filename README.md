@@ -18,8 +18,10 @@ reference : https://github.com/facebookresearch/odin
 ### 아래 그래프를 보면, ROC커브가 개선되었음을 알 수 있다.
   (Temperature=1000, Magnitude=0.0014)
   
-![graph](./result/ROC_T_1000_M_0.0014.png)
+![graph](https://user-images.githubusercontent.com/27891090/54009777-7f293500-41af-11e9-8daa-bcf22e7d16b0.png)
 
+- var 는 activation map vaule의 분산을 기준으로한 검출방법론입니다.
+- max 는 activation map value의 max를 기준으로한 검출방법론입니다.
 ### 실험 상세 내용-1
 
 - In-distribution dataset: CIFAR-10

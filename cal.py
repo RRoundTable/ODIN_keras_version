@@ -18,7 +18,6 @@ import calData as d
 import tensorflow as tf
 
 
-
 start = time.time()
 
 def train():
@@ -65,6 +64,11 @@ def test(nnName, dataName,epsilon, temperature):
     """
     print("--start testing!--")
     net1=cifar10vgg(train=False).model
+
+    if nnName == "densenet10":
+        (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+        # testloaderIn=x_train[:10000]
+        testloaderIn = x_train[:10000]
     if dataName =="Imagenet_crop":
         # (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar100.load_data()
         testloaderOut=load_images_from_folder("./Imagenet/test")
@@ -72,15 +76,15 @@ def test(nnName, dataName,epsilon, temperature):
     if dataName =="CIFAR-100":
         (_, _), (testloaderOut, _) = tf.keras.datasets.cifar100.load_data()
 
+    if dataName =="Gaussian":
+        testloaderOut=np.random.standard_normal(size=testloaderIn.shape)+0.5
+    if dataName =="Uniform":
+        testloaderOut = np.random.uniform(0, 1, size=testloaderIn.shape)
 
-
-    if nnName == "densenet10":
-        (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-        # testloaderIn=x_train[:10000]
-        testloaderIn=x_train[:10000]
 
     testloaderIn, testloaderOut= normalize(testloaderIn,testloaderOut)
     testloaderIn=(testloaderIn, y_train[:10000])
+
     d.testData(net1,testloaderIn, testloaderOut, nnName, dataName, epsilon, temperature)
     m.metric(nnName, dataName,temperature,epsilon)
 

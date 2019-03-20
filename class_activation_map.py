@@ -20,6 +20,7 @@ import tensorflow as tf
 import os
 import cv2
 from PIL import Image
+import matplotlib.pyplot as plt
 
 
 from cifar10vgg import cifar10vgg
@@ -41,7 +42,8 @@ def normalize(X_train,X_test):
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 y_train=to_categorical(y_train,10)
 y_test=to_categorical(y_test,10)
-x_train, x_test=normalize(x_train,x_test)
+#x_train, x_test=normalize(x_train,x_test)
+
 
 def Resize(x):
     """
@@ -103,13 +105,18 @@ def visualization_CAM(idx,dis,feature_map, weights,predict,img):
     cam=np.zeros(shape=feature_map[:,:,0].shape,dtype=np.float)
     for i in range(feature_map.shape[-1]):
         cam+=feature_map[:,:,i]*weights[i,predict]
+    var=np.std(cam)
+    max=np.max(cam)
+    print("var : {}".format(var))
+    print("max : {}".format(max))
     cam=cam/np.max(cam)
     cam=cv2.resize(cam, (256,256))
 
-    heatmap= cv2.applyColorMap(np.uint8(255*cam),cv2.COLORMAP_JET)
+    heatmap= cv2.applyColorMap(np.uint8(255*cam),cv2.COLORMAP_JET) # in-distribution
     heatmap[np.where(cam<0.2)]=0
-    img= heatmap*0.7+img
-    cv2.imwrite("./result_{}/activation_map_{}_{}.png".format(dis,idx,dis),img)
+    img= heatmap*0.5+img
+    cv2.imwrite("./result_{}/activation_map_{}_{}_{}_{}.png".format(dis,idx,dis,max,var),img)
+    return var, max
 
 
 
@@ -135,25 +142,32 @@ if __name__ == '__main__':
         print("start loading weights ...")
         model.load_weights('activation_map.h5')
 
-    #testloaderOut = load_images_from_folder("./Imagenet/test") # out-of-distribution
-    (_, _), (testloaderOut, _) = tf.keras.datasets.cifar100.load_data()
+    testloaderOut = load_images_from_folder("./Imagenet/test") # out-of-distribution : normalizing 하기
+    # (_, _), (testloaderOut, _) = tf.keras.datasets.cifar100.load_data()
+    f1 = open("./activation_scores/value_In.txt", 'w')
+    f2 = open("./activation_scores/value_Out.txt", 'w')
     for i in range(100):
         # in-distribution
-        idx=i
-        conv_features=get_conv(model, np.expand_dims(x_test[idx],0))
-        predict_label=model.predict(np.expand_dims(x_test[idx],0))
-        predict_label=np.argmax(predict_label)
+        idx = i
+        conv_features = get_conv(model, np.expand_dims(x_test[idx], 0))
+        predict_label = model.predict(np.expand_dims(x_test[idx], 0))
+        predict_label = np.argmax(predict_label)
 
         print("Extraction the weight between GAV and dense")
-        w=model.get_weights()[-2] # GAP outputs
-        # visualization_CAM(idx,"in",conv_features,w,predict_label,x_test[idx])
+        w = model.get_weights()[-2]  # GAP outputs
+        var, max = visualization_CAM(idx, "in", conv_features, w, predict_label, x_test[idx])
+        f1.write("{}, {}\n".format(var, max))
 
         # out-of-distribution
         conv_features = get_conv(model, np.expand_dims(testloaderOut[idx], 0))
         predict_label = model.predict(np.expand_dims(testloaderOut[idx], 0))
         predict_label = np.argmax(predict_label)
 
-        visualization_CAM(idx,"out", conv_features, w, predict_label,testloaderOut[idx])
+        var, max = visualization_CAM(idx, "out", conv_features, w, predict_label, testloaderOut[idx])
+        f2.write("{}, {}\n".format(var, max))
+
+    f1.close()
+    f2.close()
 
 
 

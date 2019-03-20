@@ -4,9 +4,8 @@
     <list default="true" id="c1aab4a8-580f-4741-8952-d21961ab33f0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cal.py" beforeDir="false" afterPath="$PROJECT_DIR$/cal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calMetric.py" beforeDir="false" afterPath="$PROJECT_DIR$/calMetric.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cifar10vgg.py" beforeDir="false" afterPath="$PROJECT_DIR$/cifar10vgg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calData.py" beforeDir="false" afterPath="$PROJECT_DIR$/calData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/class_activation_map.py" beforeDir="false" afterPath="$PROJECT_DIR$/class_activation_map.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,41 +15,44 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/ODIN_keras_version$Practice.coverage" NAME="Practice Coverage Results" MODIFIED="1550140751665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ODIN_keras_version$class_activation_map.coverage" NAME="class_activation_map Coverage Results" MODIFIED="1551851292372" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ODIN_keras_version$test.coverage" NAME="test Coverage Results" MODIFIED="1551879338824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-437745663">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
-          <entry key="project.open.time.0" value="2" />
-          <entry key="project.open.time.1" value="4" />
+          <entry key="project.closed" value="22" />
+          <entry key="project.open.time.0" value="4" />
+          <entry key="project.open.time.1" value="8" />
+          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.6" value="4" />
-          <entry key="project.open.time.7" value="2" />
-          <entry key="project.open.time.8" value="2" />
+          <entry key="project.open.time.6" value="5" />
+          <entry key="project.open.time.7" value="4" />
+          <entry key="project.open.time.8" value="3" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="18" />
+          <entry key="project.opened" value="29" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="23" />
+          <entry key="py" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="23" />
+          <entry key="Python" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="10870" />
+          <entry key="py" value="12309" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="10870" />
+          <entry key="Python" value="12309" />
         </counts>
       </usages-collector>
     </session>
@@ -62,7 +64,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Practice.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3743">
+                <state relative-caret-position="3876">
                   <caret line="210" column="36" selection-start-line="210" selection-start-column="36" selection-end-line="210" selection-end-column="36" />
                   <folding>
                     <element signature="e#0#37#0" expanded="true" />
@@ -71,14 +73,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/main.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="228">
                   <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-                  <folding>
-                    <element signature="e#284#321#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -86,10 +85,32 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/result.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="19">
-                  <caret line="1" selection-start-line="1" selection-end-line="14" selection-end-column="27" />
+                <state relative-caret-position="228">
+                  <caret line="13" column="28" selection-end-line="14" selection-end-column="27" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/calMetric.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-2623">
+                  <caret line="155" selection-start-line="155" selection-end-line="155" />
                   <folding>
-                    <element signature="e#2#23#0" expanded="true" />
+                    <element signature="e#283#320#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/cal.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="531">
+                  <caret line="85" column="48" lean-forward="true" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
+                  <folding>
+                    <element signature="e#0#37#0" expanded="true" />
+                    <marker date="1553096205874" expanded="true" signature="3121:3126" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -98,32 +119,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/calData.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="873">
-                  <caret line="66" column="63" selection-start-line="66" selection-start-column="63" selection-end-line="66" selection-end-column="63" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/calMetric.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="475">
-                  <caret line="351" column="16" selection-start-line="351" selection-start-column="16" selection-end-line="351" selection-end-column="25" />
+                <state relative-caret-position="76">
+                  <caret line="361" column="43" lean-forward="true" selection-start-line="361" selection-start-column="43" selection-end-line="361" selection-end-column="43" />
                   <folding>
-                    <element signature="e#283#320#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/cal.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="479">
-                  <caret line="73" selection-start-line="73" selection-end-line="73" />
-                  <folding>
-                    <element signature="e#0#37#0" expanded="true" />
-                    <marker date="1550720879762" expanded="true" signature="2910:2915" ph="..." />
+                    <element signature="e#1#38#0" expanded="true" />
+                    <marker date="1553096205882" expanded="true" signature="21418:21428" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -132,38 +132,15 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/cifar10vgg.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1900">
-                  <caret line="112" column="39" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
-                  <folding>
-                    <element signature="e#0#37#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
+        <leaf>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/class_activation_map.py">
+            <entry file="file://$PROJECT_DIR$/calData.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="479">
-                  <caret line="100" column="22" selection-start-line="100" selection-start-column="22" selection-end-line="100" selection-end-column="22" />
+                <state relative-caret-position="3097">
+                  <caret line="223" selection-start-line="223" selection-end-line="223" />
                   <folding>
-                    <element signature="e#0#37#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/draw_detector.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="57">
-                  <caret line="5" selection-start-line="5" selection-end-line="5" />
-                  <folding>
-                    <element signature="e#1#19#0" expanded="true" />
+                    <element signature="e#1#38#0" expanded="true" />
+                    <marker date="1553096205882" expanded="true" signature="21418:21428" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -193,15 +170,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/result.py" />
         <option value="$PROJECT_DIR$/calData2.py" />
         <option value="$PROJECT_DIR$/calMetric.py" />
         <option value="$PROJECT_DIR$/draw_detector.py" />
         <option value="$PROJECT_DIR$/Practice.py" />
         <option value="$PROJECT_DIR$/cifar10vgg.py" />
-        <option value="$PROJECT_DIR$/cal.py" />
-        <option value="$PROJECT_DIR$/class_activation_map.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/result.py" />
+        <option value="$PROJECT_DIR$/class_activation_map.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/calData.py" />
+        <option value="$PROJECT_DIR$/cal.py" />
       </list>
     </option>
   </component>
@@ -222,6 +201,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -233,7 +213,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -254,7 +233,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.test">
     <configuration name="Practice" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ODIN_keras_version" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -277,8 +256,59 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="class_activation_map" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ODIN_keras_version" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/class_activation_map.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ODIN_keras_version" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Practice" />
+      <item itemvalue="Python.test" />
+      <item itemvalue="Python.class_activation_map" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.class_activation_map" />
         <item itemvalue="Python.Practice" />
       </list>
     </recent_temporary>
@@ -300,7 +330,7 @@
     <frame x="-1928" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23294243" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.092750534" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -354,80 +384,65 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/class_activation_map.py</url>
+          <line>44</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/calData2.py" />
-    <entry file="file://$PROJECT_DIR$/Practice.py">
+    <entry file="file://$PROJECT_DIR$/draw_detector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3743">
-          <caret line="210" column="36" selection-start-line="210" selection-start-column="36" selection-end-line="210" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="57">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/result.py">
+    <entry file="file://$PROJECT_DIR$/class_activation_map.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" selection-start-line="1" selection-end-line="14" selection-end-column="27" />
+        <state relative-caret-position="314">
+          <caret line="88" selection-start-line="86" selection-end-line="88" />
           <folding>
-            <element signature="e#2#23#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="true" />
+            <marker date="1551878218733" expanded="true" signature="4332:4335" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cifar10vgg.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1900">
+        <state relative-caret-position="873">
           <caret line="112" column="39" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/draw_detector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#1#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/calData.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="873">
-          <caret line="66" column="63" selection-start-line="66" selection-start-column="63" selection-end-line="66" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/calMetric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="351" column="16" selection-start-line="351" selection-start-column="16" selection-end-line="351" selection-end-column="25" />
+          <caret line="89" column="54" selection-start-line="89" selection-start-column="54" selection-end-line="89" selection-end-column="54" />
           <folding>
-            <element signature="e#283#320#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cal.py">
+    <entry file="file://$PROJECT_DIR$/result.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <marker date="1550720879762" expanded="true" signature="2910:2915" ph="..." />
-          </folding>
+        <state relative-caret-position="228">
+          <caret line="13" column="28" selection-end-line="14" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/class_activation_map.py">
+    <entry file="file://$PROJECT_DIR$/Practice.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="100" column="22" selection-start-line="100" selection-start-column="22" selection-end-line="100" selection-end-column="22" />
+        <state relative-caret-position="3876">
+          <caret line="210" column="36" selection-start-line="210" selection-start-column="36" selection-end-line="210" selection-end-column="36" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
@@ -438,8 +453,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="12" column="23" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="361" column="43" lean-forward="true" selection-start-line="361" selection-start-column="43" selection-end-line="361" selection-end-column="43" />
           <folding>
-            <element signature="e#284#321#0" expanded="true" />
+            <element signature="e#1#38#0" expanded="true" />
+            <marker date="1553096205882" expanded="true" signature="21418:21428" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calMetric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2623">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+          <folding>
+            <element signature="e#283#320#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cal.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="85" column="48" lean-forward="true" selection-start-line="85" selection-start-column="48" selection-end-line="85" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <marker date="1553096205874" expanded="true" signature="3121:3126" ph="..." />
           </folding>
         </state>
       </provider>

@@ -146,3 +146,6 @@ def testData(net1,  testloaderIn, testloaderOut, nnName, dataName, noiseMagnitud
 
 
 
+
+
+
